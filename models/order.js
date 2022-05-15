@@ -24,10 +24,11 @@ const orderSchema = mongoose.Schema({
     country: {
         type: String,
         required: true,
+        default:"India"
     },
     phone: {
         type: String,
-        required: true,
+        required: false,
     },
     status: {
         type: String,

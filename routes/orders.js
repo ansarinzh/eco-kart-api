@@ -32,16 +32,14 @@ router.get(`/:id`, async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    console.log('idd order ', req.body);
     const orderItemsIds = Promise.all(
         req.body.orderItems.map(async (orderItem) => {
             let newOrderItem = new OrderItem({
-                quantity: orderItem.quantity,
-                product: orderItem.product,
+                quantity: orderItem.qty,
+                product: orderItem.id,
             });
 
             newOrderItem = await newOrderItem.save();
-
             return newOrderItem.id;
         })
     );
@@ -62,15 +60,15 @@ router.post('/', async (req, res) => {
 
     let order = new Order({
         orderItems: orderItemsIdsResolved,
-        shippingAddress1: req.body.shippingAddress1,
+        shippingAddress1: req.body.billing.billing.flat,
         shippingAddress2: req.body.shippingAddress2,
-        city: req.body.city,
-        zip: req.body.zip,
-        country: req.body.country,
-        phone: req.body.phone,
+        city: req.body.billing.billing.landmark,
+        zip: req.body.billing.billing.pincode,
+        // country: req.body.country,
+        // phone: req.body.phone,
         status: req.body.status,
         totalPrice: totalPrice,
-        user: req.body.user,
+        // user: req.body.user,
     });
     order = await order.save();
 
