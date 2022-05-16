@@ -23,6 +23,9 @@ const categoriesRoutes = require('./routes/categories');
 const productsRoutes = require('./routes/products');
 const usersRoutes = require('./routes/users');
 const ordersRoutes = require('./routes/orders');
+const sendOtpRoutes = require('./routes/sendOtp');
+const verifyOtpRoute = require('./routes/verifyOtp');
+
 
 const api = process.env.API_URL;
 const PORT = process.env.PORT || 3000;
@@ -31,6 +34,8 @@ app.use(`${api}/categories`, categoriesRoutes);
 app.use(`${api}/products`, productsRoutes);
 app.use(`${api}/users`, usersRoutes);
 app.use(`${api}/orders`, ordersRoutes);
+app.use(`${api}/verifyOtp`, verifyOtpRoute);
+app.use(`${api}/sendOtp`, sendOtpRoutes);
 
 //Database
 mongoose
