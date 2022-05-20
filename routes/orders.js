@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get(`/`, async (req, res) => {
     const orderList = await Order.find()
-        .populate('user', 'name')
+        .populate('orderItems')
         .sort({ dateOrdered: -1 });
 
     if (!orderList) {
@@ -32,11 +32,16 @@ router.get(`/:id`, async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+
+    console.log("req", req.body);
     const orderItemsIds = Promise.all(
+
         req.body.orderItems.map(async (orderItem) => {
+
             let newOrderItem = new OrderItem({
                 quantity: orderItem.qty,
                 product: orderItem.id,
+                price: orderItem.price
             });
 
             newOrderItem = await newOrderItem.save();
@@ -68,7 +73,7 @@ router.post('/', async (req, res) => {
         // phone: req.body.phone,
         status: req.body.status,
         totalPrice: totalPrice,
-        // user: req.body.user,
+        user: req.body.tokenId,
     });
     order = await order.save();
 
