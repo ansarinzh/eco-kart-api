@@ -5,7 +5,10 @@ const router = express.Router();
 
 router.get(`/`, async (req, res) => {
     const orderList = await Order.find()
-        .populate('orderItems')
+        .populate({path:'orderItems', populate:{
+            path:"product", 
+            select:"-numReviews -brand -rating -images -isFeatured -countInStock -dateCreated"
+        } })
         .sort({ dateOrdered: -1 });
 
     if (!orderList) {
